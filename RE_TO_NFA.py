@@ -1,19 +1,10 @@
-# Python code to
-# demonstrate readlines()
- 
-L = ["Geeks\n", "for\n", "Geeks\n"]
- 
-# writing to file
-file1 = open('myfile.txt', 'w')
-file1.writelines(L)
-file1.close()
- 
-# Using readlines()
-file1 = open('myfile.txt', 'r')
-Lines = file1.readlines()
+
+out_file = open('output.txt', 'w')
+input_file = open('input.txt', 'r')
+
+Lines = input_file.readlines()
  
 count = 0
 # Strips the newline character
 for line in Lines:
-    count += 1
-    print("Line{}: {}".format(count, line.strip()))
+    print(line.strip())
