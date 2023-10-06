@@ -1,6 +1,6 @@
+import sys
+input_file = open(sys.argv[1], 'r')
 
-out_file = open('output.txt', 'w')
-input_file = open('input.txt', 'r')
 
 Lines = input_file.readlines()
  
