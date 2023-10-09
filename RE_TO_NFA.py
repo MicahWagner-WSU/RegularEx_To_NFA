@@ -13,7 +13,7 @@ class NFA:
 		new_start = NFA1.start
 		new_accept = NFA2.accept
 		new_transition = NFA1.transition
-		new_transition.append('('+ str(NFA1.accept) + ', E)->' + str(NFA2.start))
+		new_transition.append('('+ str(NFA1.accept) + ', E) -> ' + str(NFA2.start))
 		new_transition.extend(NFA2.transition)
 		new_NFA = NFA(new_start, new_accept, new_transition)
 		return new_NFA
@@ -25,11 +25,11 @@ class NFA:
 		count += 1
 		new_accept = 'q' + str(count)
 		new_transition = NFA1.transition
-		new_transition.append('('+ str(NFA1.accept) + ', E)->' + str(new_accept))
+		new_transition.append('('+ str(NFA1.accept) + ', E) -> ' + str(new_accept))
 		new_transition.extend(NFA2.transition)
-		new_transition.append('('+ str(NFA2.accept) + ', E)->' + str(new_accept))
-		new_transition.append('('+ str(new_start) + ', E)->' + str(NFA1.start))
-		new_transition.append('('+ str(new_start) + ', E)->' + str(NFA2.start))
+		new_transition.append('('+ str(NFA2.accept) + ', E) -> ' + str(new_accept))
+		new_transition.append('('+ str(new_start) + ', E) -> ' + str(NFA1.start))
+		new_transition.append('('+ str(new_start) + ', E) -> ' + str(NFA2.start))
 
 		new_NFA = NFA(new_start, new_accept, new_transition)
 		return new_NFA
@@ -40,15 +40,13 @@ class NFA:
 		new_start = 'q' + str(count)
 		new_accept = new_start
 		new_transition = NFA1.transition
-		new_transition.append('('+ str(NFA1.accept) + ', E)->' + str(new_accept))
-		new_transition.append('('+ str(new_start) + ', E)->' + str(NFA1.start))
+		new_transition.append('('+ str(NFA1.accept) + ', E) -> ' + str(new_accept))
+		new_transition.append('('+ str(new_start) + ', E) -> ' + str(NFA1.start))
 
 		new_NFA = NFA(new_start, new_accept, new_transition)
 		return new_NFA
 
 input_file = open(sys.argv[1], 'r')
-alphabet = ['a', 'b', 'c', 'd', 'e']
-operations = ['|', '&', '*']
 
 Lines = input_file.readlines()
 
@@ -77,10 +75,14 @@ for line in Lines:
     			stack.append(NFA(
     				'q' + str(first_state), 
     				'q' + str(second_state), 
-    				['(q'+ str(first_state) +',' + str(v) + ')->q' + str(second_state)]
+    				['(q'+ str(first_state) +', ' + str(v) + ') -> q' + str(second_state)]
     			))
     	else:
     		break
     final_NFA = stack.pop()
-    print(final_NFA.start, final_NFA.accept, final_NFA.transition)
+    print('RE: ' + line[:-1])
+    print('Start: ' + final_NFA.start)
+    print('Accept: ' + final_NFA.accept)
+    for maping in final_NFA.transition:
+    	print(maping)
     print('\n')
