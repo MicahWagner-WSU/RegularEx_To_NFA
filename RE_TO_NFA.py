@@ -55,15 +55,24 @@ for line in Lines:
     for i, v in enumerate(line):
     	if(v != '\n'):
     		if(v == '&'):
+    			if(len(stack) < 2):
+    				print("ERROR: Regex not formated in proper postfix notation ")
+    				sys.exit()
     			NFA2 = stack.pop()
     			NFA1 = stack.pop()
     			stack.append(NFA.concat_NFAs(NFA1, NFA2, count))
     		elif(v == '|'):
+    			if(len(stack) < 2):
+    				print("ERROR: Regex not formated in proper postfix notation ")
+    				sys.exit()
     			NFA2 = stack.pop()
     			NFA1 = stack.pop()
     			stack.append(NFA.union_NFAs(NFA1, NFA2, count))
     			count += 2
     		elif(v == '*'):
+    			if(len(stack) < 1):
+    				print("ERROR: Regex not formated in proper postfix notation ")
+    				sys.exit()
     			NFA1 = stack.pop()
     			stack.append(NFA.kleene_star(NFA1, count))
     			count += 1
@@ -79,10 +88,14 @@ for line in Lines:
     			))
     	else:
     		break
+
+    if(len(stack) != 1):
+    	print("ERROR: Regex not formated in proper postfix notation")
+    	sys.exit()
     final_NFA = stack.pop()
     print('RE: ' + line[:-1])
     print('Start: ' + final_NFA.start)
     print('Accept: ' + final_NFA.accept)
     for maping in final_NFA.transition:
     	print(maping)
-    print('\n')
+    print('')
