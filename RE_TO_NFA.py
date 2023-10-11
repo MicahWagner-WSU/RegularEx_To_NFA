@@ -56,23 +56,26 @@ for line in Lines:
     	if(v != '\n'):
     		if(v == '&'):
     			if(len(stack) < 2):
-    				print("ERROR: Regex not formated in proper postfix notation ")
-    				sys.exit()
+    				print("ERROR: "+line[:-1]+" not formated in proper postfix notation\n")
+    				stack.clear()
+    				break
     			NFA2 = stack.pop()
     			NFA1 = stack.pop()
     			stack.append(NFA.concat_NFAs(NFA1, NFA2, count))
     		elif(v == '|'):
     			if(len(stack) < 2):
-    				print("ERROR: Regex not formated in proper postfix notation ")
-    				sys.exit()
+    				print("ERROR: "+line[:-1]+" not formated in proper postfix notation\n")
+    				stack.clear()
+    				break
     			NFA2 = stack.pop()
     			NFA1 = stack.pop()
     			stack.append(NFA.union_NFAs(NFA1, NFA2, count))
     			count += 2
     		elif(v == '*'):
     			if(len(stack) < 1):
-    				print("ERROR: Regex not formated in proper postfix notation ")
-    				sys.exit()
+    				print("ERROR: "+line[:-1]+" not formated in proper postfix notation\n")
+    				stack.clear()				
+    				break
     			NFA1 = stack.pop()
     			stack.append(NFA.kleene_star(NFA1, count))
     			count += 1
@@ -90,8 +93,9 @@ for line in Lines:
     		break
 
     if(len(stack) != 1):
-    	print("ERROR: Regex not formated in proper postfix notation")
-    	sys.exit()
+    	print("ERROR: "+line[:-1]+" not formated in proper postfix notation\n")
+    	stack.clear()
+    	continue
     final_NFA = stack.pop()
     print('RE: ' + line[:-1])
     print('Start: ' + final_NFA.start)
