@@ -1,6 +1,7 @@
 import sys
 
 stack = []
+isValid = True
 
 # NFA class containing all the attributes an NFA would have
 # includes the start state, accept state, and set of transitions
@@ -92,6 +93,7 @@ for line in Lines:
     			# if stack is less than two, the regex is not in postix form, skip to next line
     			if(len(stack) < 2):
     				print("ERROR: "+line[:-1]+" not formated in proper postfix notation\n")
+    				isValid = False
     				stack.clear()
     				break
     			NFA2 = stack.pop()
@@ -102,6 +104,7 @@ for line in Lines:
     			# if stack is less than two, the regex is not in postix form, skip to next line
     			if(len(stack) < 2):
     				print("ERROR: "+line[:-1]+" not formated in proper postfix notation\n")
+    				isValid = False
     				stack.clear()
     				break
     			NFA2 = stack.pop()
@@ -115,6 +118,7 @@ for line in Lines:
     			# if stack is less than one, the regex is not in postix form, skip to next line
     			if(len(stack) < 1):
     				print("ERROR: "+line[:-1]+" not formated in proper postfix notation\n")
+    				isValid = False
     				stack.clear()				
     				break
     			NFA1 = stack.pop()
@@ -134,8 +138,14 @@ for line in Lines:
     				['(q'+ str(first_state) +', ' + str(v) + ') -> q' + str(second_state)]
     			))
     	else:
-    		# reached new line, read next regex
+    		# reached new line, print final regex and read next regex
     		break
+
+    # if isvalid is false, we already hit an error, continue to next line
+    if(isValid == False):
+    	isValid = True
+    	stack.clear()
+    	continue
 
     # if the final stack doesn't have one NFA, regex is not in proper postfix form
     if(len(stack) != 1):
