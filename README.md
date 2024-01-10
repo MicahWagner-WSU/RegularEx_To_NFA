@@ -1,5 +1,6 @@
 1. Micah Wagner, micah.wagner@wsu.edu
 
+
 2. 
 	RE_TO_NFA.py is the python file that converts regular expression from argv[1] into NFAs
 
